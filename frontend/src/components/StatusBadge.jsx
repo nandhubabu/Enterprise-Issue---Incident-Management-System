@@ -24,7 +24,7 @@ export function StatusBadge({ status }) {
   };
 
   return (
-    <span className={`badge ${getStyle()}`}>
+    <span className={`badge ${getStyle()}`} style={{ whiteSpace: 'nowrap' }}>
       <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor' }} />
       {normalized.replace('_', ' ')}
     </span>

@@ -23,7 +23,13 @@ export function SeverityBadge({ severity }) {
     <span
       className={`badge ${getStyle()}`}
       title={`Severity Level: ${s}`}
-      style={{ letterSpacing: '0.06em' }}
+      style={{
+        letterSpacing: '0.04em',
+        whiteSpace: 'nowrap',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
     >
       SEV-{s.replace('S', '')}
     </span>

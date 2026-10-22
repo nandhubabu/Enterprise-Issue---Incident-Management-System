@@ -23,7 +23,7 @@ export function PriorityBadge({ priority }) {
   const { style, icon } = getDetails();
 
   return (
-    <span className={`badge ${style}`}>
+    <span className={`badge ${style}`} style={{ whiteSpace: 'nowrap' }}>
       {icon}
       <span>{p}</span>
     </span>

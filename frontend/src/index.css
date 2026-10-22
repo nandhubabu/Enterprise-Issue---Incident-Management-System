@@ -479,6 +479,9 @@ input:focus, textarea:focus, select:focus {
   letter-spacing: 0.03em;
   text-transform: uppercase;
   border: 1px solid transparent;
+  white-space: nowrap;
+  word-break: keep-all;
+  flex-shrink: 0;
 }
 
 .badge-open {
@@ -595,6 +598,8 @@ tr:hover td {
   border-radius: 6px;
   border: 1px solid var(--jira-blue-border);
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .ticket-key:hover {

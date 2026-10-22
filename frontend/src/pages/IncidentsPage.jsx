@@ -273,9 +273,9 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
               <tr>
                 <th style={{ width: '95px' }}>Key</th>
                 <th>Incident Summary</th>
-                <th style={{ width: '90px' }}>Severity</th>
-                <th style={{ width: '110px' }}>Priority</th>
-                <th style={{ width: '120px' }}>Status</th>
+                <th style={{ width: '90px', whiteSpace: 'nowrap' }}>Severity</th>
+                <th style={{ width: '110px', whiteSpace: 'nowrap' }}>Priority</th>
+                <th style={{ width: '120px', whiteSpace: 'nowrap' }}>Status</th>
                 <th style={{ width: '130px' }}>Assignee</th>
                 <th style={{ width: '120px' }}>Created</th>
                 <th style={{ width: '110px', textAlign: 'right' }}>Actions</th>
@@ -316,9 +316,9 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
                         )}
                       </div>
                     </td>
-                    <td><SeverityBadge severity={incident.severity} /></td>
-                    <td><PriorityBadge priority={incident.priority} /></td>
-                    <td><StatusBadge status={incident.status} /></td>
+                    <td style={{ whiteSpace: 'nowrap' }}><SeverityBadge severity={incident.severity} /></td>
+                    <td style={{ whiteSpace: 'nowrap' }}><PriorityBadge priority={incident.priority} /></td>
+                    <td style={{ whiteSpace: 'nowrap' }}><StatusBadge status={incident.status} /></td>
                     <td>
                       {incident.assignedTo ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem' }}>

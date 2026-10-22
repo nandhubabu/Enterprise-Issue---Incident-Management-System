@@ -269,13 +269,13 @@ export function DashboardPage({ onNavigateToIncident, onOpenCreateModal, onNavig
             <table>
               <thead>
                 <tr>
-                  <th style={{ width: '95px' }}>Key</th>
+                  <th style={{ width: '90px' }}>Key</th>
                   <th>Incident Summary</th>
-                  <th>Severity</th>
-                  <th>Priority</th>
-                  <th>Status</th>
-                  <th>Assignee</th>
-                  <th style={{ textAlign: 'right' }}>Action</th>
+                  <th style={{ width: '85px', whiteSpace: 'nowrap' }}>Severity</th>
+                  <th style={{ width: '105px', whiteSpace: 'nowrap' }}>Priority</th>
+                  <th style={{ width: '115px', whiteSpace: 'nowrap' }}>Status</th>
+                  <th style={{ width: '120px' }}>Assignee</th>
+                  <th style={{ textAlign: 'right', width: '90px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -304,9 +304,9 @@ export function DashboardPage({ onNavigateToIncident, onOpenCreateModal, onNavig
                           Opened by @{inc.createdBy?.username} • {new Date(inc.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </div>
                       </td>
-                      <td><SeverityBadge severity={inc.severity} /></td>
-                      <td><PriorityBadge priority={inc.priority} /></td>
-                      <td><StatusBadge status={inc.status} /></td>
+                      <td style={{ whiteSpace: 'nowrap' }}><SeverityBadge severity={inc.severity} /></td>
+                      <td style={{ whiteSpace: 'nowrap' }}><PriorityBadge priority={inc.priority} /></td>
+                      <td style={{ whiteSpace: 'nowrap' }}><StatusBadge status={inc.status} /></td>
                       <td style={{ fontSize: '0.84rem' }}>
                         {inc.assignedTo ? (
                           <span style={{ fontWeight: 500, color: 'var(--text-main)' }}>@{inc.assignedTo.username}</span>
