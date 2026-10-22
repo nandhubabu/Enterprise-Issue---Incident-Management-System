@@ -5,15 +5,15 @@ import { StatusBadge } from '../components/StatusBadge';
 import { PriorityBadge } from '../components/PriorityBadge';
 import { SeverityBadge } from '../components/SeverityBadge';
 import { 
-  AlertOctagon, 
+  AlertTriangle, 
   Clock, 
   CheckCircle2, 
-  Flame, 
-  UserCheck, 
-  PlusCircle, 
   ArrowRight,
-  TrendingUp,
-  Activity
+  Plus,
+  Shield,
+  Layers,
+  Flame,
+  UserCheck
 } from 'lucide-react';
 
 export function DashboardPage({ onNavigateToIncident, onOpenCreateModal }) {
@@ -31,189 +31,273 @@ export function DashboardPage({ onNavigateToIncident, onOpenCreateModal }) {
       setLoading(true);
       const [statsData, incidentsPage] = await Promise.all([
         incidentApi.getStats(),
-        incidentApi.getIncidents({ page: 0, size: 5, sort: 'createdAt,desc' }),
+        incidentApi.getIncidents({ page: 0, size: 6, sort: 'createdAt,desc' }),
       ]);
       setStats(statsData);
       setRecentIncidents(incidentsPage?.content || []);
     } catch (err) {
-      console.error('Failed to load dashboard data', err);
+      console.error('Failed to load operations data', err);
     } finally {
       setLoading(false);
     }
   };
 
+  const hasCriticalOutage = stats?.criticalCount > 0;
+
   return (
     <div className="page-wrapper">
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      {/* Top Banner for Active Critical / S1 Incidents (PagerDuty Inspired) */}
+      {hasCriticalOutage && (
+        <div style={{
+          background: 'rgba(229, 72, 77, 0.12)',
+          border: '1px solid rgba(229, 72, 77, 0.4)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0.85rem 1.25rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '1.5rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <Flame size={20} color="#ff7b72" />
+            <div>
+              <strong style={{ color: '#ff7b72', fontSize: '0.88rem' }}>
+                ACTIVE HIGH-SEVERITY ALERT
+              </strong>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                {stats.criticalCount} Critical (SEV-1) outage(s) currently require technical investigation.
+              </div>
+            </div>
+          </div>
+          <button
+            className="btn btn-sm"
+            style={{ background: 'var(--pagerduty-red)', color: '#fff' }}
+            onClick={() => onNavigateToIncident(recentIncidents[0]?.id)}
+          >
+            Review Priority Incident
+          </button>
+        </div>
+      )}
+
+      {/* Operations Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.8rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <Activity color="var(--accent-secondary)" />
-            Enterprise Operations Dashboard
+          <h1 style={{ fontSize: '1.45rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            Operations Command Center
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.2rem' }}>
-            Welcome back, <strong>{user?.firstName}</strong>. Real-time system telemetry and incident metrics.
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', marginTop: '0.2rem' }}>
+            Real-time incident response telemetry and triage queue for <strong>{user?.firstName} {user?.lastName}</strong>.
           </p>
         </div>
 
         <button className="btn btn-primary" onClick={onOpenCreateModal}>
-          <PlusCircle size={18} />
-          <span>Report Incident</span>
+          <Plus size={16} />
+          <span>Report Outage</span>
         </button>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="kpi-grid">
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">Total Incidents</span>
-            <div className="kpi-value">{stats?.totalIncidents ?? 0}</div>
+      {/* Metrics Row (High Density ServiceNow / PagerDuty style) */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+        gap: '0.9rem',
+        marginBottom: '1.75rem'
+      }}>
+        <div className="enterprise-panel" style={{ padding: '1rem 1.15rem' }}>
+          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.06em' }}>
+            Total Incidents
           </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(99, 102, 241, 0.1)', color: '#818cf8', borderRadius: 'var(--radius-md)' }}>
-            <TrendingUp size={24} />
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', marginTop: '0.25rem' }}>
+            {stats?.totalIncidents ?? 0}
           </div>
-        </div>
-
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">Open Backlog</span>
-            <div className="kpi-value" style={{ color: '#60a5fa' }}>{stats?.openCount ?? 0}</div>
-          </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(59, 130, 246, 0.1)', color: '#60a5fa', borderRadius: 'var(--radius-md)' }}>
-            <Clock size={24} />
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+            Tracked across all systems
           </div>
         </div>
 
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">In Progress</span>
-            <div className="kpi-value" style={{ color: '#fbbf24' }}>{stats?.inProgressCount ?? 0}</div>
+        <div className="enterprise-panel" style={{ padding: '1rem 1.15rem' }}>
+          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#58a6ff', fontWeight: 700, letterSpacing: '0.06em' }}>
+            Needs Triage (Open)
           </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(245, 158, 11, 0.1)', color: '#fbbf24', borderRadius: 'var(--radius-md)' }}>
-            <Activity size={24} />
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#58a6ff', marginTop: '0.25rem' }}>
+            {stats?.openCount ?? 0}
           </div>
-        </div>
-
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">Resolved</span>
-            <div className="kpi-value" style={{ color: '#34d399' }}>{stats?.resolvedCount ?? 0}</div>
-          </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(16, 185, 129, 0.1)', color: '#34d399', borderRadius: 'var(--radius-md)' }}>
-            <CheckCircle2 size={24} />
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+            Awaiting developer assignment
           </div>
         </div>
 
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">Critical (S1)</span>
-            <div className="kpi-value" style={{ color: '#f87171' }}>{stats?.criticalCount ?? 0}</div>
+        <div className="enterprise-panel" style={{ padding: '1rem 1.15rem' }}>
+          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#e3b341', fontWeight: 700, letterSpacing: '0.06em' }}>
+            Active Investigation
           </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', borderRadius: 'var(--radius-md)' }}>
-            <AlertOctagon size={24} />
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#e3b341', marginTop: '0.25rem' }}>
+            {(stats?.assignedCount ?? 0) + (stats?.inProgressCount ?? 0)}
           </div>
-        </div>
-
-        <div className="kpi-card">
-          <div>
-            <span className="kpi-title">Assigned to Me</span>
-            <div className="kpi-value" style={{ color: 'var(--accent-secondary)' }}>{stats?.assignedToMeCount ?? 0}</div>
-          </div>
-          <div style={{ padding: '0.6rem', background: 'rgba(6, 182, 212, 0.1)', color: 'var(--accent-secondary)', borderRadius: 'var(--radius-md)' }}>
-            <UserCheck size={24} />
-          </div>
-        </div>
-      </div>
-
-      {/* Breakdown Panels */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
-        <div className="glass-card">
-          <h3 style={{ fontSize: '1.05rem', marginBottom: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Flame size={18} color="var(--accent-primary)" />
-            Incidents by Status Breakdown
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            {stats?.statusBreakdown && Object.entries(stats.statusBreakdown).map(([status, count]) => (
-              <div key={status} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <StatusBadge status={status} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{count}</span>
-              </div>
-            ))}
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+            Assigned or In Progress
           </div>
         </div>
 
-        <div className="glass-card">
-          <h3 style={{ fontSize: '1.05rem', marginBottom: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <AlertOctagon size={18} color="#f97316" />
-            Incidents by Priority Breakdown
-          </h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            {stats?.priorityBreakdown && Object.entries(stats.priorityBreakdown).map(([priority, count]) => (
-              <div key={priority} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <PriorityBadge priority={priority} />
-                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{count}</span>
-              </div>
-            ))}
+        <div className="enterprise-panel" style={{ padding: '1rem 1.15rem' }}>
+          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: '#3fb950', fontWeight: 700, letterSpacing: '0.06em' }}>
+            Resolved & Verified
+          </div>
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#3fb950', marginTop: '0.25rem' }}>
+            {stats?.resolvedCount ?? 0}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+            Fix confirmed in staging/prod
+          </div>
+        </div>
+
+        <div className="enterprise-panel" style={{ padding: '1rem 1.15rem' }}>
+          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--jira-blue)', fontWeight: 700, letterSpacing: '0.06em' }}>
+            Assigned to Me
+          </div>
+          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: '#79c0ff', marginTop: '0.25rem' }}>
+            {stats?.assignedToMeCount ?? 0}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+            Tickets on your workbench
           </div>
         </div>
       </div>
 
-      {/* Recent Incidents Table */}
-      <div className="glass-card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <h3>Recently Logged Incidents</h3>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Latest 5 items</span>
-        </div>
+      {/* Main Grid: Triage Queue & Service Telemetry */}
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.25rem' }}>
+        {/* Triage Queue Table */}
+        <div className="enterprise-panel" style={{ padding: 0 }}>
+          <div style={{ padding: '0.9rem 1.25rem', borderBottom: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Layers size={16} color="var(--text-muted)" />
+              <strong style={{ fontSize: '0.88rem' }}>Live Incident Triage Queue</strong>
+            </div>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
+              RECENT TICKETS
+            </span>
+          </div>
 
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Priority</th>
-                <th>Severity</th>
-                <th>Status</th>
-                <th>Assignee</th>
-                <th>Created</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentIncidents.length === 0 ? (
+          <div className="table-container" style={{ border: 'none' }}>
+            <table>
+              <thead>
                 <tr>
-                  <td colSpan={8} style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '2rem' }}>
-                    No incidents logged yet. Click "Report Incident" to create one.
-                  </td>
+                  <th style={{ width: '90px' }}>Key</th>
+                  <th>Incident Summary</th>
+                  <th>Severity</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Assignee</th>
+                  <th style={{ textAlign: 'right' }}>Action</th>
                 </tr>
-              ) : (
-                recentIncidents.map((incident) => (
-                  <tr key={incident.id}>
-                    <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>#{incident.id}</td>
-                    <td style={{ fontWeight: 600 }}>{incident.title}</td>
-                    <td><PriorityBadge priority={incident.priority} /></td>
-                    <td><SeverityBadge severity={incident.severity} /></td>
-                    <td><StatusBadge status={incident.status} /></td>
-                    <td style={{ color: incident.assignedTo ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-                      {incident.assignedTo ? `@${incident.assignedTo.username}` : 'Unassigned'}
-                    </td>
-                    <td style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                      {new Date(incident.createdAt).toLocaleString()}
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={() => onNavigateToIncident(incident.id)}
-                      >
-                        <span>Details</span>
-                        <ArrowRight size={14} />
-                      </button>
+              </thead>
+              <tbody>
+                {recentIncidents.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} style={{ textAlign: 'center', padding: '2.5rem', color: 'var(--text-muted)' }}>
+                      No active incidents logged. All systems operational.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  recentIncidents.map((inc) => (
+                    <tr key={inc.id}>
+                      <td>
+                        <span className="ticket-key">INC-{inc.id}</span>
+                      </td>
+                      <td>
+                        <div
+                          style={{ fontWeight: 600, cursor: 'pointer', color: 'var(--text-main)' }}
+                          onClick={() => onNavigateToIncident(inc.id)}
+                          onMouseEnter={(e) => (e.currentTarget.style.color = '#58a6ff')}
+                          onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-main)')}
+                        >
+                          {inc.title}
+                        </div>
+                        <div style={{ fontSize: '0.74rem', color: 'var(--text-dim)', marginTop: '0.15rem' }}>
+                          Opened by @{inc.createdBy?.username} • {new Date(inc.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </td>
+                      <td><SeverityBadge severity={inc.severity} /></td>
+                      <td><PriorityBadge priority={inc.priority} /></td>
+                      <td><StatusBadge status={inc.status} /></td>
+                      <td style={{ fontSize: '0.82rem' }}>
+                        {inc.assignedTo ? (
+                          <span>@{inc.assignedTo.username}</span>
+                        ) : (
+                          <span style={{ color: 'var(--text-dim)' }}>—</span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: 'right' }}>
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => onNavigateToIncident(inc.id)}
+                        >
+                          <span>Triage</span>
+                          <ArrowRight size={13} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Right Side: Operational Telemetry & Health */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {/* Status Breakdown Panel */}
+          <div className="enterprise-panel">
+            <h4 style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: 'var(--text-dim)', letterSpacing: '0.06em', marginBottom: '0.9rem' }}>
+              Workflow Distribution
+            </h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {stats?.statusBreakdown && Object.entries(stats.statusBreakdown).map(([statusName, count]) => {
+                const total = stats.totalIncidents || 1;
+                const percentage = Math.round((count / total) * 100);
+                return (
+                  <div key={statusName}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.2rem' }}>
+                      <span style={{ fontSize: '0.78rem', fontFamily: 'var(--font-mono)' }}>{statusName}</span>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{count} ({percentage}%)</span>
+                    </div>
+                    <div style={{ height: '5px', background: 'var(--surface-sidebar)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%',
+                        width: `${percentage}%`,
+                        background: statusName === 'OPEN' ? '#388bff' :
+                                    statusName === 'IN_PROGRESS' ? '#d29922' :
+                                    statusName === 'RESOLVED' ? '#2da44e' :
+                                    statusName === 'ASSIGNED' ? '#a371f7' : '#6e7681',
+                      }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Responder Card */}
+          <div className="enterprise-panel">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+              <Shield size={16} color="var(--jira-blue)" />
+              <strong style={{ fontSize: '0.84rem' }}>Operator Identity</strong>
+            </div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              Logged in as <strong>@{user?.username}</strong> ({user?.email}) with granted permissions:
+            </div>
+            <div style={{ display: 'flex', gap: '0.35rem', marginTop: '0.6rem', flexWrap: 'wrap' }}>
+              {user?.roles?.map((r) => (
+                <span
+                  key={r}
+                  className="badge"
+                  style={{ background: 'var(--surface-sidebar)', borderColor: 'var(--border-default)', color: 'var(--text-main)' }}
+                >
+                  {r}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
