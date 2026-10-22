@@ -1,0 +1,14 @@
+{
+  "name": "enterprise-issue-and-incident-management-system",
+  "version": "1.0.0",
+  "description": "Enterprise Issue & Incident Management System with Neon PostgreSQL Cloud Database",
+  "scripts": {
+    "neon:verify": "node scripts/neon-verify.js"
+  },
+  "dependencies": {
+    "@neon/config": "^1.9.3",
+    "@neon/env": "^1.6.4",
+    "bcryptjs": "^3.0.3",
+    "pg": "^8.23.1"
+  }
+}

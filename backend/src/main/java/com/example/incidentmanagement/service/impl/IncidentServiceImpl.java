@@ -202,26 +202,6 @@ public class IncidentServiceImpl implements IncidentService {
     @Transactional(readOnly = true)
     public IncidentStatsDto getIncidentStats(String currentUsername) {
         long total = incidentRepository.count();
-        long open = incidentRepository.countByStatus(IncidentStatus.OPEN);
-        long assigned = incidentRepository.countByStatus(IncidentStatus.ASSIGNED);
-        long inProgress = incidentRepository.countByStatus(IncidentStatus.IN_PROGRESS);
-        long resolved = incidentRepository.countByStatus(IncidentStatus.RESOLVED);
-        long closed = incidentRepository.countByStatus(IncidentStatus.CLOSED);
-        long reopened = incidentRepository.countByStatus(IncidentStatus.REOPENED);
-
-        long critical = incidentRepository.countByPriority(IncidentPriority.CRITICAL);
-        long high = incidentRepository.countByPriority(IncidentPriority.HIGH);
-
-        long assignedToMe = 0;
-        if (currentUsername != null) {
-            userRepository.findByUsername(currentUsername).ifPresent(user -> {
-                // assignedToMe
-            });
-            var userOpt = userRepository.findByUsername(currentUsername);
-            if (userOpt.isPresent()) {
-                assignedToMe = incidentRepository.countByAssignedTo(userOpt.get());
-            }
-        }
 
         Map<String, Long> statusBreakdown = new HashMap<>();
         for (IncidentStatus s : IncidentStatus.values()) {
@@ -233,16 +213,24 @@ public class IncidentServiceImpl implements IncidentService {
             priorityBreakdown.put(p.name(), incidentRepository.countByPriority(p));
         }
 
+        long assignedToMe = 0;
+        if (currentUsername != null) {
+            var userOpt = userRepository.findByUsername(currentUsername);
+            if (userOpt.isPresent()) {
+                assignedToMe = incidentRepository.countByAssignedTo(userOpt.get());
+            }
+        }
+
         return IncidentStatsDto.builder()
                 .totalIncidents(total)
-                .openCount(open)
-                .assignedCount(assigned)
-                .inProgressCount(inProgress)
-                .resolvedCount(resolved)
-                .closedCount(closed)
-                .reopenedCount(reopened)
-                .criticalCount(critical)
-                .highCount(high)
+                .openCount(statusBreakdown.getOrDefault(IncidentStatus.OPEN.name(), 0L))
+                .assignedCount(statusBreakdown.getOrDefault(IncidentStatus.ASSIGNED.name(), 0L))
+                .inProgressCount(statusBreakdown.getOrDefault(IncidentStatus.IN_PROGRESS.name(), 0L))
+                .resolvedCount(statusBreakdown.getOrDefault(IncidentStatus.RESOLVED.name(), 0L))
+                .closedCount(statusBreakdown.getOrDefault(IncidentStatus.CLOSED.name(), 0L))
+                .reopenedCount(statusBreakdown.getOrDefault(IncidentStatus.REOPENED.name(), 0L))
+                .criticalCount(priorityBreakdown.getOrDefault(IncidentPriority.CRITICAL.name(), 0L))
+                .highCount(priorityBreakdown.getOrDefault(IncidentPriority.HIGH.name(), 0L))
                 .assignedToMeCount(assignedToMe)
                 .statusBreakdown(statusBreakdown)
                 .priorityBreakdown(priorityBreakdown)

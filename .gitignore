@@ -27,6 +27,7 @@ yarn-error.log*
 
 # Environment & Secrets
 .env
+.env.local
 *.env.local
 backend/.env
 frontend/.env.local
@@ -34,3 +35,6 @@ frontend/.env.local
 # Database files & Volume data
 postgres_data/
 *.db
+.neon
+node_modules/
+*.png
