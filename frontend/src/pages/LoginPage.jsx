@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Flame, Lock, User as UserIcon, Mail, ShieldAlert } from 'lucide-react';
+import { Shield, Lock, User as UserIcon, Mail, ShieldAlert, Terminal } from 'lucide-react';
 
 export function LoginPage() {
   const { login, register } = useAuth();
@@ -29,7 +29,6 @@ export function LoginPage() {
           lastName,
           roles: [role],
         });
-        // Auto-login after registration
         await login({ username, password });
       } else {
         await login({ username, password });
@@ -54,39 +53,47 @@ export function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-      <div className="glass-card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-flex', padding: '0.75rem', borderRadius: 'var(--radius-lg)', background: 'var(--accent-gradient)', color: 'white', marginBottom: '1rem', boxShadow: 'var(--shadow-glow)' }}>
-            <Flame size={32} />
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', background: 'var(--surface-bg)' }}>
+      <div className="enterprise-panel" style={{ maxWidth: '440px', width: '100%', padding: '2.25rem', background: 'var(--surface-panel)', border: '1px solid var(--border-default)', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.45)' }}>
+        
+        {/* Enterprise Brand Header */}
+        <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.4rem 0.85rem', background: 'var(--surface-sidebar)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', marginBottom: '0.85rem' }}>
+            <Terminal size={14} color="var(--jira-blue)" />
+            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              IncidentSphere Ops Console v2.4
+            </span>
           </div>
-          <h2 style={{ fontSize: '1.6rem' }}>IncidentSphere</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', marginTop: '0.25rem' }}>
-            Enterprise Issue & Incident Management
+
+          <h2 style={{ fontSize: '1.45rem', fontWeight: 700, margin: '0 0 0.35rem 0', color: 'var(--text-main)' }}>
+            Enterprise Incident Portal
+          </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: 0 }}>
+            Unified SRE Telemetry & Multi-Tier Dispatch Terminal
           </p>
         </div>
 
         {error && (
-          <div style={{ padding: '0.75rem 1rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', borderRadius: 'var(--radius-md)', marginBottom: '1.25rem', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <ShieldAlert size={16} />
+          <div style={{ padding: '0.7rem 0.9rem', background: 'rgba(248, 81, 73, 0.1)', border: '1px solid rgba(248, 81, 73, 0.3)', color: '#ff7b72', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <ShieldAlert size={15} />
             <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
+            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Username
             </label>
             <div style={{ position: 'relative' }}>
-              <UserIcon size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-muted)' }} />
+              <UserIcon size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
               <input
                 type="text"
                 required
-                placeholder="Username"
+                placeholder="Username (e.g. admin or support)"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                style={{ width: '100%', paddingLeft: '2.4rem' }}
+                style={{ width: '100%', paddingLeft: '2.25rem' }}
               />
             </div>
           </div>
@@ -94,25 +101,25 @@ export function LoginPage() {
           {isRegister && (
             <>
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
-                  Email Address
+                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Enterprise Email
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <Mail size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-muted)' }} />
+                  <Mail size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
                   <input
                     type="email"
                     required
-                    placeholder="name@enterprise.com"
+                    placeholder="name@enterprise.corp"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: '100%', paddingLeft: '2.4rem' }}
+                    style={{ width: '100%', paddingLeft: '2.25rem' }}
                   />
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
+                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     First Name
                   </label>
                   <input
@@ -125,7 +132,7 @@ export function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
+                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     Last Name
                   </label>
                   <input
@@ -140,35 +147,35 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
-                  Assigned Role
+                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Assigned Operational Role
                 </label>
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   style={{ width: '100%' }}
                 >
-                  <option value="SUPPORT">SUPPORT (Incident creator & assigner)</option>
-                  <option value="DEVELOPER">DEVELOPER (Investigator & resolver)</option>
-                  <option value="ADMIN">ADMIN (Full system authority)</option>
+                  <option value="SUPPORT">SUPPORT (NOC incident dispatcher)</option>
+                  <option value="DEVELOPER">DEVELOPER (Engineer / Tier 2 responder)</option>
+                  <option value="ADMIN">ADMIN (Full organization administrator)</option>
                 </select>
               </div>
             </>
           )}
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '0.35rem', fontWeight: 600 }}>
-              Password
+            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Credentials / Password
             </label>
             <div style={{ position: 'relative' }}>
-              <Lock size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-muted)' }} />
+              <Lock size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
               <input
                 type="password"
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                style={{ width: '100%', paddingLeft: '2.4rem' }}
+                style={{ width: '100%', paddingLeft: '2.25rem' }}
               />
             </div>
           </div>
@@ -176,35 +183,36 @@ export function LoginPage() {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: '0.5rem', padding: '0.8rem' }}
+            style={{ width: '100%', marginTop: '0.35rem', padding: '0.65rem' }}
             disabled={loading}
           >
-            {loading ? 'Processing...' : isRegister ? 'Create Account' : 'Sign In'}
+            {loading ? 'Authenticating...' : isRegister ? 'Provision Account' : 'Authenticate Session'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.25rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '1.1rem', textAlign: 'center' }}>
           <button
             onClick={() => {
               setIsRegister(!isRegister);
               setError('');
             }}
-            style={{ background: 'transparent', color: 'var(--accent-secondary)', fontSize: '0.84rem' }}
+            style={{ background: 'transparent', border: 'none', color: '#58a6ff', fontSize: '0.8rem', cursor: 'pointer' }}
           >
-            {isRegister ? 'Already have an account? Sign in' : "Don't have an account? Register"}
+            {isRegister ? '← Return to Sign In' : 'Need a new operator account? Register'}
           </button>
         </div>
 
-        {/* Quick Demo Logins for Pair Programming and Testing */}
-        <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', marginBottom: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Instant Role-Based Demo Logins
+        {/* Demo Fast-Login Strip for Live Verification */}
+        <div style={{ marginTop: '1.5rem', paddingTop: '1.15rem', borderTop: '1px solid var(--border-subtle)' }}>
+          <p style={{ fontSize: '0.72rem', color: 'var(--text-dim)', textAlign: 'center', marginBottom: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
+            Quick Role-Based Authentication
           </p>
-          <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.45rem' }}>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('admin', 'admin123')}
               disabled={loading}
+              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
             >
               Admin
             </button>
@@ -212,6 +220,7 @@ export function LoginPage() {
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('support', 'support123')}
               disabled={loading}
+              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
             >
               Support
             </button>
@@ -219,6 +228,7 @@ export function LoginPage() {
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('developer', 'dev123')}
               disabled={loading}
+              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
             >
               Developer
             </button>
