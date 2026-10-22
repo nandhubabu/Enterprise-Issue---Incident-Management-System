@@ -116,9 +116,9 @@ export function UserManagementPage() {
                             key={r}
                             className="badge"
                             style={{
-                              background: r === 'ADMIN' ? 'rgba(239, 68, 68, 0.15)' : r === 'SUPPORT' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-                              color: r === 'ADMIN' ? '#f87171' : r === 'SUPPORT' ? '#60a5fa' : '#34d399',
-                              border: '1px solid currentColor',
+                              background: r === 'ADMIN' ? 'var(--pagerduty-red-subtle)' : r === 'SUPPORT' ? 'var(--jira-blue-subtle)' : 'var(--status-resolved-bg)',
+                              color: r === 'ADMIN' ? 'var(--pagerduty-red)' : r === 'SUPPORT' ? 'var(--jira-blue)' : 'var(--status-resolved)',
+                              borderColor: 'currentColor',
                             }}
                           >
                             <Shield size={10} />

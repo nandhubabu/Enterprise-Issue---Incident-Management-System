@@ -53,28 +53,28 @@ export function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', background: 'var(--surface-bg)' }}>
-      <div className="enterprise-panel" style={{ maxWidth: '440px', width: '100%', padding: '2.25rem', background: 'var(--surface-panel)', border: '1px solid var(--border-default)', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.45)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', background: 'var(--app-bg)' }}>
+      <div className="enterprise-panel" style={{ maxWidth: '440px', width: '100%', padding: '2.25rem', background: '#ffffff', border: '1px solid var(--border-default)', boxShadow: 'var(--shadow-md)' }}>
         
         {/* Enterprise Brand Header */}
         <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.4rem 0.85rem', background: 'var(--surface-sidebar)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', marginBottom: '0.85rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.4rem 0.85rem', background: 'var(--surface-active)', border: '1px solid #b3d4ff', borderRadius: 'var(--radius-sm)', marginBottom: '0.85rem' }}>
             <Terminal size={14} color="var(--jira-blue)" />
-            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <span style={{ fontSize: '0.74rem', fontFamily: 'var(--font-mono)', color: 'var(--jira-blue)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
               IncidentSphere Ops Console v2.4
             </span>
           </div>
 
-          <h2 style={{ fontSize: '1.45rem', fontWeight: 700, margin: '0 0 0.35rem 0', color: 'var(--text-main)' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '0 0 0.35rem 0', color: 'var(--text-heading)' }}>
             Enterprise Incident Portal
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', margin: 0 }}>
-            Unified SRE Telemetry & Multi-Tier Dispatch Terminal
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', margin: 0 }}>
+            Unified Atlassian ITSM & Incident Dispatch Terminal
           </p>
         </div>
 
         {error && (
-          <div style={{ padding: '0.7rem 0.9rem', background: 'rgba(248, 81, 73, 0.1)', border: '1px solid rgba(248, 81, 73, 0.3)', color: '#ff7b72', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ padding: '0.7rem 0.9rem', background: 'var(--pagerduty-red-subtle)', border: '1px solid var(--pagerduty-red-border)', color: 'var(--pagerduty-red)', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', fontSize: '0.82rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <ShieldAlert size={15} />
             <span>{error}</span>
           </div>
@@ -82,11 +82,11 @@ export function LoginPage() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Username
             </label>
             <div style={{ position: 'relative' }}>
-              <UserIcon size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
+              <UserIcon size={14} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-dim)' }} />
               <input
                 type="text"
                 required
@@ -101,11 +101,11 @@ export function LoginPage() {
           {isRegister && (
             <>
               <div>
-                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Enterprise Email
                 </label>
                 <div style={{ position: 'relative' }}>
-                  <Mail size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
+                  <Mail size={14} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-dim)' }} />
                   <input
                     type="email"
                     required
@@ -119,7 +119,7 @@ export function LoginPage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     First Name
                   </label>
                   <input
@@ -132,7 +132,7 @@ export function LoginPage() {
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                     Last Name
                   </label>
                   <input
@@ -147,7 +147,7 @@ export function LoginPage() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                   Assigned Operational Role
                 </label>
                 <select
@@ -164,11 +164,11 @@ export function LoginPage() {
           )}
 
           <div>
-            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <label style={{ display: 'block', fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: '0.35rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Credentials / Password
             </label>
             <div style={{ position: 'relative' }}>
-              <Lock size={14} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
+              <Lock size={14} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-dim)' }} />
               <input
                 type="password"
                 required
@@ -183,36 +183,36 @@ export function LoginPage() {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ width: '100%', marginTop: '0.35rem', padding: '0.65rem' }}
+            style={{ width: '100%', marginTop: '0.45rem', padding: '0.65rem' }}
             disabled={loading}
           >
             {loading ? 'Authenticating...' : isRegister ? 'Provision Account' : 'Authenticate Session'}
           </button>
         </form>
 
-        <div style={{ marginTop: '1.1rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '1.15rem', textAlign: 'center' }}>
           <button
             onClick={() => {
               setIsRegister(!isRegister);
               setError('');
             }}
-            style={{ background: 'transparent', border: 'none', color: '#58a6ff', fontSize: '0.8rem', cursor: 'pointer' }}
+            style={{ background: 'transparent', border: 'none', color: 'var(--jira-blue)', fontSize: '0.82rem', fontWeight: 500, cursor: 'pointer' }}
           >
             {isRegister ? '← Return to Sign In' : 'Need a new operator account? Register'}
           </button>
         </div>
 
         {/* Demo Fast-Login Strip for Live Verification */}
-        <div style={{ marginTop: '1.5rem', paddingTop: '1.15rem', borderTop: '1px solid var(--border-subtle)' }}>
+        <div style={{ marginTop: '1.5rem', paddingTop: '1.15rem', borderTop: '1px solid var(--border-default)' }}>
           <p style={{ fontSize: '0.72rem', color: 'var(--text-dim)', textAlign: 'center', marginBottom: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
             Quick Role-Based Authentication
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.45rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem' }}>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('admin', 'admin123')}
               disabled={loading}
-              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
+              style={{ fontSize: '0.78rem', justifyContent: 'center' }}
             >
               Admin
             </button>
@@ -220,7 +220,7 @@ export function LoginPage() {
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('support', 'support123')}
               disabled={loading}
-              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
+              style={{ fontSize: '0.78rem', justifyContent: 'center' }}
             >
               Support
             </button>
@@ -228,7 +228,7 @@ export function LoginPage() {
               className="btn btn-secondary btn-sm"
               onClick={() => handleQuickLogin('developer', 'dev123')}
               disabled={loading}
-              style={{ fontSize: '0.75rem', justifyContent: 'center' }}
+              style={{ fontSize: '0.78rem', justifyContent: 'center' }}
             >
               Developer
             </button>

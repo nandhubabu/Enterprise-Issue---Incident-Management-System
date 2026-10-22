@@ -170,7 +170,7 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
           className={`filter-pill ${activeQuickFilter === 'SEV_CRITICAL' ? 'active' : ''}`}
           onClick={() => handleSelectQuickFilter('SEV_CRITICAL')}
         >
-          <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#ff7b72', marginRight: 4 }} />
+          <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'var(--pagerduty-red)', marginRight: 5 }} />
           Critical Outages (S1)
         </button>
         <button
@@ -302,10 +302,10 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
                     </td>
                     <td>
                       <div
-                        style={{ fontWeight: 600, cursor: 'pointer', color: 'var(--text-main)', fontSize: '0.88rem' }}
+                        style={{ fontWeight: 600, cursor: 'pointer', color: 'var(--text-heading)', fontSize: '0.88rem' }}
                         onClick={() => onNavigateToIncident(incident.id)}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = '#58a6ff')}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-main)')}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--jira-blue)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-heading)')}
                       >
                         {incident.title}
                       </div>
@@ -321,22 +321,22 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
                     <td><StatusBadge status={incident.status} /></td>
                     <td>
                       {incident.assignedTo ? (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem' }}>
                           <span style={{
-                            width: 20,
-                            height: 20,
+                            width: 22,
+                            height: 22,
                             borderRadius: '50%',
-                            background: 'rgba(56, 139, 253, 0.2)',
-                            color: '#58a6ff',
+                            background: '#deebff',
+                            color: 'var(--jira-blue)',
                             display: 'inline-flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '0.7rem',
+                            fontSize: '0.72rem',
                             fontWeight: 700
                           }}>
                             {incident.assignedTo.username.slice(0, 1).toUpperCase()}
                           </span>
-                          <span>@{incident.assignedTo.username}</span>
+                          <span style={{ fontWeight: 500 }}>@{incident.assignedTo.username}</span>
                         </div>
                       ) : (
                         <span style={{ color: 'var(--text-dim)', fontSize: '0.82rem' }}>Unassigned</span>
