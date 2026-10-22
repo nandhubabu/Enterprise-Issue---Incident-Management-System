@@ -38,6 +38,7 @@ export function App() {
           <DashboardPage
             onNavigateToIncident={navigateToIncident}
             onOpenCreateModal={() => setIsCreateModalOpen(true)}
+            onNavigateToUsers={() => setCurrentView('users')}
           />
         );
       case 'incidents':

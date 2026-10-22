@@ -8,17 +8,24 @@ import {
   AlertTriangle, 
   Clock, 
   CheckCircle2, 
-  ArrowRight,
-  Plus,
-  Shield,
-  Layers,
-  Flame,
-  UserCheck,
-  Activity,
-  Sparkles
+  ArrowRight, 
+  Plus, 
+  Shield, 
+  Layers, 
+  Flame, 
+  UserCheck, 
+  Activity, 
+  Sparkles, 
+  ShieldCheck, 
+  Lock, 
+  KeyRound, 
+  Fingerprint, 
+  Mail, 
+  ShieldAlert, 
+  ExternalLink 
 } from 'lucide-react';
 
-export function DashboardPage({ onNavigateToIncident, onOpenCreateModal }) {
+export function DashboardPage({ onNavigateToIncident, onOpenCreateModal, onNavigateToUsers }) {
   const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [recentIncidents, setRecentIncidents] = useState([]);
@@ -45,6 +52,23 @@ export function DashboardPage({ onNavigateToIncident, onOpenCreateModal }) {
   };
 
   const hasCriticalOutage = stats?.criticalCount > 0;
+
+  const getAvatarColor = (roles = []) => {
+    if (roles?.includes('ADMIN')) return 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)';
+    if (roles?.includes('DEVELOPER')) return 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+    return 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)';
+  };
+
+  const avatarInitials = `${user?.firstName?.slice(0, 1) || ''}${user?.lastName?.slice(0, 1) || ''}`.toUpperCase() || user?.username?.slice(0, 2).toUpperCase() || 'OP';
+
+  const statusColorMap = {
+    OPEN: '#2563eb',
+    IN_PROGRESS: '#d97706',
+    RESOLVED: '#059669',
+    ASSIGNED: '#7c3aed',
+    CLOSED: '#64748b',
+    REOPENED: '#e11d48',
+  };
 
   return (
     <div className="page-wrapper">
@@ -308,67 +332,237 @@ export function DashboardPage({ onNavigateToIncident, onOpenCreateModal }) {
           </div>
         </div>
 
-        {/* Right Side: Operational Telemetry & Health */}
+        {/* Right Side: Operational Telemetry & Security Hub */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {/* Status Breakdown Panel */}
+          
+          {/* Modern Workflow Distribution Panel */}
           <div className="enterprise-panel">
-            <h4 style={{ fontSize: '0.82rem', textTransform: 'uppercase', color: 'var(--text-dim)', letterSpacing: '0.06em', marginBottom: '1rem' }}>
-              Workflow Distribution
-            </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{ width: 28, height: 28, borderRadius: '8px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' }}>
+                  <Activity size={15} />
+                </div>
+                <strong style={{ fontSize: '0.9rem', color: 'var(--text-heading)' }}>Workflow Distribution</strong>
+              </div>
+              <span className="badge" style={{ background: '#f1f5f9', color: 'var(--text-muted)', fontSize: '0.7rem' }}>
+                {stats?.totalIncidents ?? 0} ACTIVE TICKETS
+              </span>
+            </div>
+
+            {/* Segmented Multi-Color Progress Bar */}
+            <div style={{
+              height: '8px',
+              background: '#f1f5f9',
+              borderRadius: '9999px',
+              overflow: 'hidden',
+              display: 'flex',
+              marginBottom: '1rem',
+              gap: '1px'
+            }}>
+              {stats?.statusBreakdown && Object.entries(stats.statusBreakdown).map(([statusName, count]) => {
+                if (count === 0) return null;
+                const total = stats.totalIncidents || 1;
+                const percentage = (count / total) * 100;
+                return (
+                  <div
+                    key={statusName}
+                    title={`${statusName}: ${count} (${Math.round(percentage)}%)`}
+                    style={{
+                      height: '100%',
+                      width: `${percentage}%`,
+                      background: statusColorMap[statusName] || '#94a3b8',
+                      transition: 'width 0.3s ease'
+                    }}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Active Status Metric Badges */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
               {stats?.statusBreakdown && Object.entries(stats.statusBreakdown).map(([statusName, count]) => {
                 const total = stats.totalIncidents || 1;
                 const percentage = Math.round((count / total) * 100);
+                const color = statusColorMap[statusName] || '#64748b';
+
                 return (
-                  <div key={statusName}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
-                      <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-main)' }}>{statusName}</span>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{count} ({percentage}%)</span>
+                  <div
+                    key={statusName}
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      background: '#f8fafc',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-default)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                      <span style={{ width: 7, height: 7, borderRadius: '50%', background: color }} />
+                      <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--text-heading)', fontFamily: 'var(--font-mono)' }}>
+                        {statusName}
+                      </span>
                     </div>
-                    <div style={{ height: '7px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
-                      <div style={{
-                        height: '100%',
-                        width: `${percentage}%`,
-                        borderRadius: '4px',
-                        background: statusName === 'OPEN' ? '#2563eb' :
-                                    statusName === 'IN_PROGRESS' ? '#d97706' :
-                                    statusName === 'RESOLVED' ? '#059669' :
-                                    statusName === 'ASSIGNED' ? '#7c3aed' : '#94a3b8',
-                      }} />
-                    </div>
+                    <span style={{ fontSize: '0.74rem', fontWeight: 700, color: count > 0 ? color : 'var(--text-dim)' }}>
+                      {count} ({percentage}%)
+                    </span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Active Responder Card */}
+          {/* Premium Enterprise Security & Access Posture Hub */}
           <div className="enterprise-panel">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.65rem' }}>
-              <div style={{ width: 30, height: 30, borderRadius: '8px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' }}>
-                <Shield size={16} />
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <div style={{ width: 32, height: 32, borderRadius: '9px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' }}>
+                  <ShieldCheck size={17} />
+                </div>
+                <div>
+                  <strong style={{ fontSize: '0.92rem', color: 'var(--text-heading)' }}>Security & Access Posture</strong>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', letterSpacing: '0.04em', fontWeight: 700 }}>
+                    RBAC GOVERNANCE
+                  </div>
+                </div>
               </div>
-              <strong style={{ fontSize: '0.92rem', color: 'var(--text-heading)' }}>Operator Identity</strong>
+
+              <span className="badge" style={{ background: '#ecfdf5', color: '#059669', borderColor: '#a7f3d0', fontSize: '0.68rem' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#059669' }} />
+                ENFORCED
+              </span>
             </div>
-            <div style={{ fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-              Authenticated as <strong>@{user?.username}</strong> ({user?.email}) with active permissions:
+
+            {/* Operator Identity Card */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.8rem',
+              padding: '0.85rem 1rem',
+              background: '#f8fafc',
+              borderRadius: '12px',
+              border: '1px solid var(--border-default)',
+              marginBottom: '1rem'
+            }}>
+              <div
+                className="user-avatar-circle"
+                style={{ width: 42, height: 42, fontSize: '0.95rem', background: getAvatarColor(user?.roles) }}
+                title={`${user?.firstName} ${user?.lastName}`}
+              >
+                {avatarInitials}
+              </div>
+
+              <div style={{ flex: 1, overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+                  <strong style={{ fontSize: '0.92rem', color: 'var(--text-heading)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {user?.firstName} {user?.lastName}
+                  </strong>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
+                    @{user?.username}
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.15rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <Mail size={12} color="var(--text-dim)" />
+                  <span>{user?.email}</span>
+                </div>
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.85rem', flexWrap: 'wrap' }}>
-              {user?.roles?.map((r) => (
-                <span
-                  key={r}
-                  className="badge"
-                  style={{
-                    background: r === 'ADMIN' ? '#fef2f2' : r === 'SUPPORT' ? '#eff6ff' : '#ecfdf5',
-                    borderColor: r === 'ADMIN' ? '#fecaca' : r === 'SUPPORT' ? '#bfdbfe' : '#a7f3d0',
-                    color: r === 'ADMIN' ? '#dc2626' : r === 'SUPPORT' ? '#2563eb' : '#059669',
-                    borderRadius: 'var(--radius-full)'
-                  }}
-                >
-                  {r}
-                </span>
-              ))}
+
+            {/* Clearance & Roles */}
+            <div style={{ marginBottom: '1rem' }}>
+              <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.05em', display: 'block', marginBottom: '0.4rem' }}>
+                Assigned Security Clearance
+              </span>
+              <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                {user?.roles?.map((r) => (
+                  <span
+                    key={r}
+                    className="badge"
+                    style={{
+                      background: r === 'ADMIN' ? '#fef2f2' : r === 'SUPPORT' ? '#eff6ff' : '#ecfdf5',
+                      borderColor: r === 'ADMIN' ? '#fecaca' : r === 'SUPPORT' ? '#bfdbfe' : '#a7f3d0',
+                      color: r === 'ADMIN' ? '#dc2626' : r === 'SUPPORT' ? '#2563eb' : '#059669',
+                      padding: '0.22rem 0.65rem',
+                      fontSize: '0.72rem',
+                      borderRadius: 'var(--radius-full)'
+                    }}
+                  >
+                    <Shield size={11} />
+                    {r === 'ADMIN' ? 'ROOT ADMINISTRATOR' : r === 'SUPPORT' ? 'NOC DISPATCHER' : 'REMEDIATION ENGINEER'}
+                  </span>
+                ))}
+              </div>
             </div>
+
+            {/* Security Cryptographic Posture 2x2 Grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '0.55rem',
+              marginBottom: '1rem'
+            }}>
+              <div style={{ padding: '0.65rem 0.75rem', background: '#ffffff', border: '1px solid var(--border-default)', borderRadius: '10px', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-dim)', fontSize: '0.66rem', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <Lock size={12} color="#059669" />
+                  <span>Auth Token</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-heading)', marginTop: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+                  JWT HMAC-256
+                </div>
+              </div>
+
+              <div style={{ padding: '0.65rem 0.75rem', background: '#ffffff', border: '1px solid var(--border-default)', borderRadius: '10px', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-dim)', fontSize: '0.66rem', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <KeyRound size={12} color="#2563eb" />
+                  <span>Authorization</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-heading)', marginTop: '0.2rem' }}>
+                  Spring Security 6
+                </div>
+              </div>
+
+              <div style={{ padding: '0.65rem 0.75rem', background: '#ffffff', border: '1px solid var(--border-default)', borderRadius: '10px', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-dim)', fontSize: '0.66rem', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <Fingerprint size={12} color="#7c3aed" />
+                  <span>Tracing</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-heading)', marginTop: '0.2rem', fontFamily: 'var(--font-mono)' }}>
+                  MDC Correlation
+                </div>
+              </div>
+
+              <div style={{ padding: '0.65rem 0.75rem', background: '#ffffff', border: '1px solid var(--border-default)', borderRadius: '10px', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-dim)', fontSize: '0.66rem', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <ShieldCheck size={12} color="#059669" />
+                  <span>Audit Policy</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-heading)', marginTop: '0.2rem' }}>
+                  Immutable sys_audit
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Governance Navigation Link */}
+            {user?.roles?.includes('ADMIN') && onNavigateToUsers && (
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={onNavigateToUsers}
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  borderRadius: '10px',
+                  padding: '0.55rem',
+                  fontSize: '0.82rem',
+                  fontWeight: 600
+                }}
+              >
+                <UserCheck size={14} color="var(--jira-blue)" />
+                <span>Open Identity Directory & RBAC</span>
+                <ArrowRight size={13} />
+              </button>
+            )}
           </div>
         </div>
       </div>
