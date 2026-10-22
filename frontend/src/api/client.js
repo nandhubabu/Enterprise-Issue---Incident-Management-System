@@ -1,4 +1,5 @@
-const BASE_URL = '/api';
+const RAW_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const BASE_URL = RAW_BASE.replace(/\/+$/, '');
 
 export async function apiRequest(endpoint, options = {}) {
   const token = localStorage.getItem('token');
@@ -9,7 +10,8 @@ export async function apiRequest(endpoint, options = {}) {
     ...options.headers,
   };
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const response = await fetch(`${BASE_URL}${cleanEndpoint}`, {
     ...options,
     headers,
   });
