@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle, ChevronUp, ChevronsUp, Minus, ArrowDown } from 'lucide-react';
+import { ChevronUp, ChevronsUp, Minus, ArrowDown } from 'lucide-react';
 
 export function PriorityBadge({ priority }) {
   if (!priority) return null;
@@ -8,15 +8,15 @@ export function PriorityBadge({ priority }) {
   const getDetails = () => {
     switch (p) {
       case 'CRITICAL':
-        return { style: 'badge-critical', icon: <ChevronsUp size={12} color="#ff7b72" /> };
+        return { style: 'badge-critical', icon: <ChevronsUp size={12} color="currentColor" /> };
       case 'HIGH':
-        return { style: 'badge-high', icon: <ChevronUp size={12} color="#ffa657" /> };
+        return { style: 'badge-high', icon: <ChevronUp size={12} color="currentColor" /> };
       case 'MEDIUM':
-        return { style: 'badge-medium', icon: <Minus size={12} color="#e3b341" /> };
+        return { style: 'badge-medium', icon: <Minus size={12} color="currentColor" /> };
       case 'LOW':
-        return { style: 'badge-low', icon: <ArrowDown size={12} color="#79c0ff" /> };
+        return { style: 'badge-low', icon: <ArrowDown size={12} color="currentColor" /> };
       default:
-        return { style: 'badge-low', icon: <Minus size={12} /> };
+        return { style: 'badge-low', icon: <Minus size={12} color="currentColor" /> };
     }
   };
 

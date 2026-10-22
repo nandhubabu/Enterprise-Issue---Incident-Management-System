@@ -45,14 +45,14 @@ export function IncidentModal({ isOpen, onClose, onCreated }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-          <h3>Report Technical Incident</h3>
+          <h3 style={{ color: 'var(--text-heading)', fontSize: '1.25rem' }}>Report Technical Incident</h3>
           <button onClick={onClose} style={{ background: 'transparent', color: 'var(--text-muted)' }}>
             <X size={20} />
           </button>
         </div>
 
         {error && (
-          <div style={{ padding: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', borderRadius: 'var(--radius-md)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}>
+          <div style={{ padding: '0.75rem', background: 'var(--pagerduty-red-subtle)', border: '1px solid var(--pagerduty-red-border)', color: 'var(--pagerduty-red)', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.84rem' }}>
             <AlertCircle size={16} />
             <span>{error}</span>
           </div>

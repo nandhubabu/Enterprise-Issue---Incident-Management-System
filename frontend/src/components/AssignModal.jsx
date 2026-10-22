@@ -51,8 +51,8 @@ export function AssignModal({ isOpen, onClose, incidentId, onAssigned }) {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <UserCheck size={20} color="var(--accent-secondary)" />
-            <h3>Assign Incident #{incidentId}</h3>
+            <UserCheck size={20} color="var(--jira-blue)" />
+            <h3 style={{ color: 'var(--text-heading)', fontSize: '1.25rem' }}>Assign Incident INC-{incidentId}</h3>
           </div>
           <button onClick={onClose} style={{ background: 'transparent', color: 'var(--text-muted)' }}>
             <X size={20} />
@@ -60,7 +60,7 @@ export function AssignModal({ isOpen, onClose, incidentId, onAssigned }) {
         </div>
 
         {error && (
-          <div style={{ padding: '0.75rem', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', borderRadius: 'var(--radius-md)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}>
+          <div style={{ padding: '0.75rem', background: 'var(--pagerduty-red-subtle)', border: '1px solid var(--pagerduty-red-border)', color: 'var(--pagerduty-red)', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.84rem' }}>
             <AlertCircle size={16} />
             <span>{error}</span>
           </div>
