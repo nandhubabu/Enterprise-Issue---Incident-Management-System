@@ -54,21 +54,21 @@ export function LoginPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem', background: 'var(--app-bg)' }}>
-      <div className="enterprise-panel" style={{ maxWidth: '440px', width: '100%', padding: '2.25rem', background: '#ffffff', border: '1px solid var(--border-default)', boxShadow: 'var(--shadow-md)' }}>
+      <div className="enterprise-panel" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem', background: '#ffffff', border: '1px solid var(--border-default)', borderRadius: '20px', boxShadow: 'var(--shadow-lg)' }}>
         
         {/* Enterprise Brand Header */}
-        <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.4rem 0.85rem', background: 'var(--surface-active)', border: '1px solid #b3d4ff', borderRadius: 'var(--radius-sm)', marginBottom: '0.85rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.35rem 0.95rem', background: 'var(--jira-blue-subtle)', border: '1px solid var(--jira-blue-border)', borderRadius: 'var(--radius-full)', marginBottom: '1rem' }}>
             <Terminal size={14} color="var(--jira-blue)" />
             <span style={{ fontSize: '0.74rem', fontFamily: 'var(--font-mono)', color: 'var(--jira-blue)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
               IncidentSphere Ops Console v2.4
             </span>
           </div>
 
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, margin: '0 0 0.35rem 0', color: 'var(--text-heading)' }}>
+          <h2 style={{ fontSize: '1.6rem', fontWeight: 800, margin: '0 0 0.4rem 0', color: 'var(--text-heading)', letterSpacing: '-0.025em' }}>
             Enterprise Incident Portal
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', margin: 0 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', margin: 0 }}>
             Unified Atlassian ITSM & Incident Dispatch Terminal
           </p>
         </div>

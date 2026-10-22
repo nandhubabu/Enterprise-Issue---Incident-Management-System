@@ -222,14 +222,15 @@ export function IncidentDetailPage({ incidentId, onBack }) {
               <div
                 key={stage.id}
                 style={{
-                  background: isCurrent ? 'var(--surface-active)' : '#fafbfc',
-                  border: isCurrent ? '1px solid #b3d4ff' : '1px solid var(--border-default)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '0.55rem 0.75rem',
+                  background: isCurrent ? '#eff6ff' : '#f8fafc',
+                  border: isCurrent ? '1px solid #bfdbfe' : '1px solid var(--border-default)',
+                  borderRadius: '12px',
+                  padding: '0.65rem 0.85rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  transition: 'all 0.15s ease'
+                  gap: '0.55rem',
+                  transition: 'all 0.16s ease',
+                  boxShadow: isCurrent ? '0 0 0 3px rgba(37, 99, 235, 0.12)' : 'none'
                 }}
               >
                 <div style={{

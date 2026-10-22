@@ -194,10 +194,10 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
       </div>
 
       {/* Structured Filter and Search Bar */}
-      <div className="enterprise-panel" style={{ marginBottom: '1.25rem', padding: '0.85rem 1rem' }}>
-        <form onSubmit={handleSearchSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.65rem', alignItems: 'center' }}>
+      <div className="enterprise-panel" style={{ marginBottom: '1.25rem', padding: '1rem 1.25rem', borderRadius: 'var(--radius-lg)' }}>
+        <form onSubmit={handleSearchSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
           <div style={{ position: 'relative', flex: '1 1 260px' }}>
-            <Search size={15} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--text-dim)' }} />
+            <Search size={15} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--text-dim)' }} />
             <input
               type="text"
               placeholder="Search by title, description, or keyword..."
@@ -207,7 +207,7 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
             />
           </div>
 
-          <div style={{ flex: '0 1 135px' }}>
+          <div style={{ flex: '0 1 140px' }}>
             <select
               value={status}
               onChange={(e) => { setStatus(e.target.value); setActiveQuickFilter('CUSTOM'); setPage(0); }}
@@ -223,7 +223,7 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
             </select>
           </div>
 
-          <div style={{ flex: '0 1 135px' }}>
+          <div style={{ flex: '0 1 140px' }}>
             <select
               value={priority}
               onChange={(e) => { setPriority(e.target.value); setActiveQuickFilter('CUSTOM'); setPage(0); }}
@@ -237,7 +237,7 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
             </select>
           </div>
 
-          <div style={{ flex: '0 1 135px' }}>
+          <div style={{ flex: '0 1 140px' }}>
             <select
               value={severity}
               onChange={(e) => { setSeverity(e.target.value); setActiveQuickFilter('CUSTOM'); setPage(0); }}
@@ -265,9 +265,9 @@ export function IncidentsPage({ onNavigateToIncident, onOpenCreateModal }) {
         </form>
       </div>
 
-      {/* High Density Enterprise Incidents Data Grid */}
-      <div className="enterprise-panel" style={{ padding: 0 }}>
-        <div className="table-container" style={{ border: 'none' }}>
+      {/* Modern High Density Enterprise Incidents Data Grid */}
+      <div className="enterprise-panel" style={{ padding: 0, borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+        <div className="table-container" style={{ border: 'none', boxShadow: 'none' }}>
           <table>
             <thead>
               <tr>
