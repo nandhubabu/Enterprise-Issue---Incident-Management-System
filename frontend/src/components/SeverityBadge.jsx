@@ -20,8 +20,12 @@ export function SeverityBadge({ severity }) {
   };
 
   return (
-    <span className={`badge ${getStyle()}`} style={{ fontFamily: 'var(--font-mono)' }}>
-      {s}
+    <span
+      className={`badge ${getStyle()}`}
+      title={`Severity Level: ${s}`}
+      style={{ letterSpacing: '0.06em' }}
+    >
+      SEV-{s.replace('S', '')}
     </span>
   );
 }
