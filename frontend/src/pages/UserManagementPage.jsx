@@ -72,13 +72,13 @@ export function UserManagementPage() {
       </div>
 
       {error && (
-        <div style={{ padding: '0.75rem 1rem', background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}>
-          <ShieldAlert size={16} />
+        <div style={{ padding: '0.75rem 1rem', background: 'rgba(248, 81, 73, 0.1)', border: '1px solid rgba(248, 81, 73, 0.3)', color: '#ff7b72', borderRadius: 'var(--radius-sm)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.84rem' }}>
+          <ShieldAlert size={15} />
           <span>{error}</span>
         </div>
       )}
 
-      <div className="glass-card" style={{ padding: 0 }}>
+      <div className="enterprise-panel" style={{ padding: 0 }}>
         <div className="table-container" style={{ border: 'none' }}>
           <table>
             <thead>
