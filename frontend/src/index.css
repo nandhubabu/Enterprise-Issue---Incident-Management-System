@@ -657,3 +657,103 @@ tr:hover td {
 .timeline-content {
   flex: 1;
 }
+
+/* ==========================================================================
+   Modern Enterprise User Directory Components (Jira / Atlassian Shapes)
+   ========================================================================== */
+
+/* Modern Interactive Switch Toggle */
+.switch-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+  background: transparent;
+  padding: 0.2rem;
+  border-radius: 12px;
+}
+
+.switch-track {
+  width: 34px;
+  height: 18px;
+  border-radius: 10px;
+  background: #dfe1e6;
+  position: relative;
+  transition: background var(--transition-fast);
+}
+
+.switch-track.active {
+  background: var(--status-resolved);
+}
+
+.switch-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform var(--transition-fast);
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.25);
+}
+
+.switch-track.active .switch-thumb {
+  transform: translateX(16px);
+}
+
+/* Modern Role Permission Toggle Pills */
+.role-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.26rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--border-default);
+  background: #ffffff;
+  color: var(--text-muted);
+}
+
+.role-toggle-pill:hover {
+  border-color: var(--jira-blue);
+  color: var(--jira-blue);
+  background: #fafbfc;
+}
+
+.role-toggle-pill.active-admin {
+  background: var(--pagerduty-red-subtle);
+  color: var(--pagerduty-red);
+  border-color: var(--pagerduty-red-border);
+}
+
+.role-toggle-pill.active-support {
+  background: var(--jira-blue-subtle);
+  color: var(--jira-blue);
+  border-color: #b3d4ff;
+}
+
+.role-toggle-pill.active-developer {
+  background: var(--status-resolved-bg);
+  color: var(--status-resolved);
+  border-color: var(--status-resolved-border);
+}
+
+/* User Identity Avatar Circle */
+.user-avatar-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.15);
+}
