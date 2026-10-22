@@ -124,60 +124,85 @@ export function UserManagementPage() {
         </div>
       </div>
 
-      {/* Metrics Row (Modern Elevated Stat Cards) */}
+      {/* Metrics Row (Modern Elevated Stat Cards with Squircle Icons) */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-        gap: '0.9rem',
-        marginBottom: '1.5rem',
+        gap: '1rem',
+        marginBottom: '1.75rem',
       }}>
-        <div className="enterprise-panel" style={{ padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.06em' }}>
-            Total Operators
+        <div className="enterprise-panel" style={{ padding: '1.2rem 1.35rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.05em' }}>
+                Total Operators
+              </div>
+              <div style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-sans)', marginTop: '0.3rem', color: 'var(--text-heading)', letterSpacing: '-0.03em' }}>
+                {totalUsers}
+              </div>
+            </div>
+            <div style={{ width: 38, height: 38, borderRadius: '10px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2563eb' }}>
+              <Users size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', marginTop: '0.2rem', color: 'var(--text-heading)' }}>
-            {totalUsers}
-          </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
             Registered enterprise accounts
           </div>
         </div>
 
-        <div className="enterprise-panel" style={{ padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--status-resolved)', fontWeight: 700, letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--status-resolved)' }} />
-            Active Seats
+        <div className="enterprise-panel" style={{ padding: '1.2rem 1.35rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: '#059669', fontWeight: 700, letterSpacing: '0.05em' }}>
+                Active Seats
+              </div>
+              <div style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-sans)', marginTop: '0.3rem', color: '#059669', letterSpacing: '-0.03em' }}>
+                {activeCount}
+              </div>
+            </div>
+            <div style={{ width: 38, height: 38, borderRadius: '10px', background: '#ecfdf5', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#059669' }}>
+              <UserCheck size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--status-resolved)', marginTop: '0.2rem' }}>
-            {activeCount}
-          </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
             Permitted for system dispatch
           </div>
         </div>
 
-        <div className="enterprise-panel" style={{ padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--pagerduty-red)', fontWeight: 700, letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <Shield size={12} />
-            System Administrators
+        <div className="enterprise-panel" style={{ padding: '1.2rem 1.35rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: '#dc2626', fontWeight: 700, letterSpacing: '0.05em' }}>
+                System Admins
+              </div>
+              <div style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-sans)', marginTop: '0.3rem', color: '#dc2626', letterSpacing: '-0.03em' }}>
+                {adminCount}
+              </div>
+            </div>
+            <div style={{ width: 38, height: 38, borderRadius: '10px', background: '#fef2f2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#dc2626' }}>
+              <Shield size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--pagerduty-red)', marginTop: '0.2rem' }}>
-            {adminCount}
-          </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
             Root governance authority
           </div>
         </div>
 
-        <div className="enterprise-panel" style={{ padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)' }}>
-          <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--jira-blue)', fontWeight: 700, letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <UserCheck size={12} />
-            Engineers & Responders
+        <div className="enterprise-panel" style={{ padding: '1.2rem 1.35rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ fontSize: '0.74rem', textTransform: 'uppercase', color: '#7c3aed', fontWeight: 700, letterSpacing: '0.05em' }}>
+                Engineers & Responders
+              </div>
+              <div style={{ fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-sans)', marginTop: '0.3rem', color: '#7c3aed', letterSpacing: '-0.03em' }}>
+                {devCount}
+              </div>
+            </div>
+            <div style={{ width: 38, height: 38, borderRadius: '10px', background: '#f5f3ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#7c3aed' }}>
+              <Sparkles size={18} />
+            </div>
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', color: 'var(--jira-blue)', marginTop: '0.2rem' }}>
-            {devCount}
-          </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
             Tier-2 technical triage
           </div>
         </div>
