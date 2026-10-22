@@ -108,3 +108,7 @@ ON CONFLICT DO NOTHING;
 INSERT INTO user_roles (user_id, role_id)
 SELECT 3, id FROM roles WHERE name = 'DEVELOPER'
 ON CONFLICT DO NOTHING;
+
+-- Advance sequences so subsequent auto-increment inserts succeed
+SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 1) FROM users));
+SELECT setval('roles_id_seq', (SELECT COALESCE(MAX(id), 1) FROM roles));
