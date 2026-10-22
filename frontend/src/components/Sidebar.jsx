@@ -1,12 +1,13 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { 
-  LayoutDashboard, 
-  AlertCircle, 
+  Activity, 
+  Layers, 
   Users, 
   LogOut, 
-  Flame, 
-  ExternalLink 
+  ShieldCheck, 
+  FileCode2, 
+  Server
 } from 'lucide-react';
 
 export function Sidebar({ currentView, setCurrentView }) {
@@ -14,54 +15,73 @@ export function Sidebar({ currentView, setCurrentView }) {
 
   return (
     <aside className="sidebar">
+      {/* Brand Header */}
       <div className="sidebar-logo">
         <div className="logo-icon">
-          <Flame size={20} />
+          <span>IS</span>
         </div>
-        <span className="logo-text">IncidentSphere</span>
+        <div>
+          <div className="logo-text">IncidentSphere</div>
+          <div style={{ fontSize: '0.68rem', color: 'var(--text-dim)', letterSpacing: '0.04em' }}>
+            COMMAND CONSOLE
+          </div>
+        </div>
       </div>
 
+      <div className="sidebar-section-title">Incident Operations</div>
       <nav className="sidebar-menu">
         <button
           className={`nav-item ${currentView === 'dashboard' ? 'active' : ''}`}
           onClick={() => setCurrentView('dashboard')}
         >
-          <LayoutDashboard size={18} />
-          <span>Dashboard</span>
+          <Activity size={16} />
+          <span>Operations Center</span>
         </button>
 
         <button
           className={`nav-item ${currentView === 'incidents' || currentView === 'incident-detail' ? 'active' : ''}`}
           onClick={() => setCurrentView('incidents')}
         >
-          <AlertCircle size={18} />
-          <span>Incidents</span>
+          <Layers size={16} />
+          <span>Incident Queue</span>
         </button>
 
         {isAdmin && (
-          <button
-            className={`nav-item ${currentView === 'users' ? 'active' : ''}`}
-            onClick={() => setCurrentView('users')}
-          >
-            <Users size={18} />
-            <span>User Management</span>
-          </button>
+          <>
+            <div className="sidebar-section-title">Platform Governance</div>
+            <button
+              className={`nav-item ${currentView === 'users' ? 'active' : ''}`}
+              onClick={() => setCurrentView('users')}
+            >
+              <Users size={16} />
+              <span>User Directory & RBAC</span>
+            </button>
+          </>
         )}
 
-        <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-          <a
-            href="/swagger-ui.html"
-            target="_blank"
-            rel="noreferrer"
-            className="nav-item"
-            style={{ fontSize: '0.85rem' }}
-          >
-            <ExternalLink size={16} />
-            <span>Swagger OpenAPI Docs</span>
-          </a>
-        </div>
+        <div className="sidebar-section-title">Telemetry & Contract</div>
+        <a
+          href="/swagger-ui.html"
+          target="_blank"
+          rel="noreferrer"
+          className="nav-item"
+        >
+          <FileCode2 size={16} />
+          <span>OpenAPI / Swagger</span>
+        </a>
+
+        <a
+          href="/actuator/health"
+          target="_blank"
+          rel="noreferrer"
+          className="nav-item"
+        >
+          <Server size={16} />
+          <span>Actuator Health</span>
+        </a>
       </nav>
 
+      {/* User Session Footer */}
       {user && (
         <div className="user-profile-badge">
           <div className="user-info">
@@ -73,11 +93,11 @@ export function Sidebar({ currentView, setCurrentView }) {
           <button
             onClick={logout}
             title="Log Out"
-            style={{ background: 'transparent', color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
+            style={{ color: 'var(--text-dim)', padding: '0.2rem' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--pagerduty-red)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-dim)')}
           >
-            <LogOut size={18} />
+            <LogOut size={16} />
           </button>
         </div>
       )}
